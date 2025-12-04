@@ -4,26 +4,19 @@
 
 ## Extensions to ro-crate-py
 
-```
-[...] traversing the graph from the top crate to a subcrate, as suggested in the 1.2 spec.
+Extended the library with a class 'Subcrate' extending the Dataset class. This additional implementation allows things like:
 
-I am proposing a simple approach here, with a new Subcrate class extending the Dataset class.
-I defined this class in the main rocrate.py file, in models.py it would cause circular dependencies.
-
-This would allow things like
-
-main_crate = ROCrate(test_data_dir / "crate_with_subcrate")
+```python
+main_crate = ROCrate("/tmp/ro-crate-dir")
 subcrate = main_crate.get("subcrate")
 subfile = subcrate.get("subfile.txt")
 # or 
 subfile = subcrate["hasPart"][0]
-
-(see added tests too)
-
-at this point I am mostly interested to know if you think that could be a viable approach before going further.
+# or 
+entities = subcrate.get_entities()
+```
 
 The implementation is such that the subcrate is only loaded when accessing some of its attribute, to avoid potentially loading large amount of metadata, as one purpose of the subcrate is also to reduce the amount of information in the main crate.
-```
 
 [Link to the pull request with the feature implementations](https://github.com/ResearchObject/ro-crate-py/pull/244)
 
@@ -31,7 +24,7 @@ The implementation is such that the subcrate is only loaded when accessing some 
 
 ## Extensions to ro-crate-rs
 
-- Interactive CLI mode for RO-Crate (attached and detached) exploration and traversal
+We added an interactive CLI mode for RO-Crate (attached and detached) exploration and traversal. 
 
 ![CLI displays full loaded RO-Crate content](assets/cli_screenshot_01.png)
 
