@@ -24,20 +24,51 @@ The implementation is such that the subcrate is only loaded when accessing some 
 
 ## Extensions to ro-crate-rs
 
-We added an interactive CLI mode for RO-Crate (attached and detached) exploration and traversal. 
+We added an interactive CLI mode for RO-Crate (attached and detached) exploration and traversal. This integrates the following commands:
+
+```
+Commands:
+  load <url|path>    Load RO-Crate from URL or .zip file
+  ls                 List hasPart of current dataset/folder
+  ls -a              List all entities (data + contextual)
+  get <@id>          Pretty-print JSON for entity
+  cd <id>            Enter subcrate or folder
+  cd ..              Return to parent
+  cd /               Return to root crate
+  pwd                Print current path
+  help               Show this message
+Supported formats:
+  - .zip archives containing ro-crate-metadata.json
+  - Direct URLs to RO-Crate archives
+  - DOIs resolving to Zenodo/similar repositories
+```
+
+<div style="margin-bottom: 25px; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 1px dashed #00A0CC;">
 
 ![CLI displays full loaded RO-Crate content](assets/cli_screenshot_01.png)
 
+_Screenshot which shows the complete loaded top-level RO-Crate metadata file_
+
+</div>
+
+<div style="display: flex; flex-direction: column; justify-content: center; align-items: center; border: 1px dashed #00A0CC;">
+
+
 ![CLI displays full loaded RO-Crate content](assets/cli_screenshot_02.png)
 
+_Screenshot which displays a specific entity after executing the `get ./` command_ 
+
+</div>
+
+During the development process, discussions were held with one of the official RO-Crate specification maintainers regarding the potential transfer of the library into the official ResearchObject Github organization. This conversation explored the benefits of housing the library within the established organizational structure, which would provide greater visibility within the RO-Crate community and signal its alignment with official specification standards. Future discussions with the current maintainer will focus on establishing joint development and shared maintenance of the library.
+
+---
+
+## RO-Crate indexing for easier exploration
 
 - Fulltext search index over all included entities of a RO-Crate metadata file
 
 **Screenshot Sebastian**
-
-
-- Discussion with one of the official RO-Crate specification maintainers to move the library into the official `ResearchObject` Github organization
-
 
 ---
 
