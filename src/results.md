@@ -218,7 +218,7 @@ _To maintain context during exploration, clicking on an entity link (an @id refe
 
 #### Raw JSON-LD Source Overlay and Export Actions
 
-<div style="padding: 0 15px; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 1px dashed #00A0CC;">
+<div style="padding: 0 15px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align:   center; border: 1px dashed #00A0CC;">
 
 ![Raw JSON-LD Source Overlay and Export Actions](assets/demonstrator_06.png)
 
