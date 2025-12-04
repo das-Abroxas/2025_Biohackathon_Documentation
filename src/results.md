@@ -37,6 +37,7 @@ Commands:
   cd /               Return to root crate
   pwd                Print current path
   help               Show this message
+
 Supported formats:
   - .zip archives containing ro-crate-metadata.json
   - Direct URLs to RO-Crate archives
@@ -65,7 +66,7 @@ During the development process, discussions were held with one of the official R
 
 ## RO-Crate indexing for easier exploration
 
-The [rocrate-indexer](https://github.com/arunaengine/rocrate-indexer) tool implements a thin webserver that provides the following endpoints:
+The [**rocrate-indexer**](https://github.com/arunaengine/rocrate-indexer) tool implements a thin webserver that provides the following endpoints:
 
 ```
 [POST]   /crates/url                Add an RO-Crate from a URL to the index
@@ -106,7 +107,7 @@ _Screenshot which displays the result of the `/search` endpoint after searching 
 
 ## Demonstrator
 
-The **RO-Crate Explorer** is a lightweight "Minimum Viable Product" (MVP) web application designed to demonstrate the parsing, visualization, and traversal of Research Object Crates (RO-Crates). It provides a user-friendly interface to navigate the complex graph structures of metadata, supporting both detached (remote) and local nested crate structures.
+The [**RO-Crate Explorer**](https://github.com/arunaengine/RO-Crate-Explorer) is a lightweight "Minimum Viable Product" (MVP) web application designed to demonstrate the parsing, visualization, and traversal of Research Object Crates (RO-Crates). It provides a user-friendly interface to navigate the complex graph structures of metadata, supporting both detached (remote) and local nested crate structures.
 
 ### Core Capabilities
 
