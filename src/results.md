@@ -4,53 +4,108 @@
 
 ## Extensions to ro-crate-py
 
-```
-[...] traversing the graph from the top crate to a subcrate, as suggested in the 1.2 spec.
+Extended the library with a class `Subcrate` extending the Dataset class. This additional implementation allows things like:
 
-I am proposing a simple approach here, with a new Subcrate class extending the Dataset class.
-I defined this class in the main rocrate.py file, in models.py it would cause circular dependencies.
-
-This would allow things like
-
-main_crate = ROCrate(test_data_dir / "crate_with_subcrate")
+```python
+main_crate = ROCrate("/tmp/ro-crate-dir")
 subcrate = main_crate.get("subcrate")
 subfile = subcrate.get("subfile.txt")
 # or 
 subfile = subcrate["hasPart"][0]
-
-(see added tests too)
-
-at this point I am mostly interested to know if you think that could be a viable approach before going further.
-
-The implementation is such that the subcrate is only loaded when accessing some of its attribute, to avoid potentially loading large amount of metadata, as one purpose of the subcrate is also to reduce the amount of information in the main crate.
+# or 
+entities = subcrate.get_entities()
 ```
 
-[Link to the pull request with the feature implementations](https://github.com/ResearchObject/ro-crate-py/pull/244)
+The implementation is such that the subcrate is only loaded when accessing some of its attribute, to avoid potentially loading large amount of metadata, as one purpose of the subcrate is also to reduce the amount of information in the main crate.
+
+[🔗 **Link to the pull request with the feature implementations**](https://github.com/ResearchObject/ro-crate-py/pull/244)
 
 ---
 
 ## Extensions to ro-crate-rs
 
-- Interactive CLI mode for RO-Crate (attached and detached) exploration and traversal
+We added an interactive CLI mode for RO-Crate (attached and detached) exploration and traversal. This integrates the following commands:
 
-![CLI displays full loaded RO-Crate content](assets/cli_screenshot_01.png)
+```
+Commands:
+  load <url|path>    Load RO-Crate from URL or .zip file
+  ls                 List hasPart of current dataset/folder
+  ls -a              List all entities (data + contextual)
+  get <@id>          Pretty-print JSON for entity
+  cd <id>            Enter subcrate or folder
+  cd ..              Return to parent
+  cd /               Return to root crate
+  pwd                Print current path
+  help               Show this message
 
-![CLI displays full loaded RO-Crate content](assets/cli_screenshot_02.png)
+Supported formats:
+  - .zip archives containing ro-crate-metadata.json
+  - Direct URLs to RO-Crate archives
+  - DOIs resolving to Zenodo/similar repositories
+```
+
+<div style="margin-bottom: 25px; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 1px dashed #00A0CC;">
+
+![CLI displays full loaded RO-Crate JSON-LD content](assets/cli_screenshot_01.png)
+
+_Screenshot which shows the complete loaded top-level RO-Crate metadata file_
+</div>
+
+<div style="display: flex; flex-direction: column; justify-content: center; align-items: center; border: 1px dashed #00A0CC;">
+
+![CLI displays JSON-LD of specific entity with the @id: "./"](assets/cli_screenshot_02.png)
+
+_Screenshot which displays a specific entity after executing the `get ./` command_ 
+</div>
+
+During the development process, discussions were held with one of the official RO-Crate specification maintainers regarding the potential transfer of the library into the official ResearchObject Github organization. This conversation explored the benefits of housing the library within the established organizational structure, which would provide greater visibility within the RO-Crate community and signal its alignment with official specification standards. Future discussions with the current maintainer will focus on establishing joint development and shared maintenance of the library.
+
+---
+
+## RO-Crate indexing for easier exploration
+
+The [**rocrate-indexer**](https://github.com/arunaengine/rocrate-indexer) tool implements a thin webserver that provides the following endpoints:
+
+```
+[POST]   /crates/url                Add an RO-Crate from a URL to the index
+[POST]   /crates/upload             Add an RO- to the index by uploading a file (zip archive or ro-crate-metadata.json)
+
+[GET]    /crates                    List information of all indexed RO-Crates 
+[GET]    /crates/{crate-id}         Get full metadata of the RO-Crate associated with the specific id
+[GET]    /crates/{crate-id}/info    Get shortened information (name, description, ancestry path) of the RO-Crate associated with the specific id
+[GET]    /search                    Search for entities matching a query
+
+[DELETE] /crates/{crate-id}         Delete RO-Crate associated with the specific id from the index
+```
+
+The tool also integrates a fulltext search index over all included entities of an RO-Crate metadata file. The search functionality can be performed either as a fuzzy search without a cleanly defined scope or as an exact search on specific fields of entities.
+
+**Examples for search queries:**
+  - Full text search: "e.coli"
+  - Search by tpye: "entity_type:Person"
+  - Search by nested property: "author.name:Smith"
+  - Boolean query: "name:Test AND entity_type:Dataset"
 
 
-- Fulltext search index over all included entities of a RO-Crate metadata file
+<div style="margin-bottom: 25px; padding:15px; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 1px dashed #00A0CC;">
 
-**Screenshot Sebastian**
+![Screenshot of the executed ](assets/rocrate-indexer-01.png)
 
+_Screenshot which displays the result of the `/crates/url` endpoint after recursively ingesting the RO-Crate metadata files_ 
+</div>
 
-- Discussion with one of the official RO-Crate specification maintainers to move the library into the official `ResearchObject` Github organization
+<div style="padding:15px; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 1px dashed #00A0CC;">
 
+![Screenshot of the executed ](assets/rocrate-indexer-02.png)
+
+_Screenshot which displays the result of the `/search` endpoint after searching for the query `Maria`_ 
+</div>
 
 ---
 
 ## Demonstrator
 
-The **RO-Crate Explorer** is a lightweight "Minimum Viable Product" (MVP) web application designed to demonstrate the parsing, visualization, and traversal of Research Object Crates (RO-Crates). It provides a user-friendly interface to navigate the complex graph structures of metadata, supporting both detached (remote) and local nested crate structures.
+The [**RO-Crate Explorer**](https://github.com/arunaengine/RO-Crate-Explorer) is a lightweight "Minimum Viable Product" (MVP) web application designed to demonstrate the parsing, visualization, and traversal of Research Object Crates (RO-Crates). It provides a user-friendly interface to navigate the complex graph structures of metadata, supporting both detached (remote) and local nested crate structures.
 
 ### Core Capabilities
 
