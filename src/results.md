@@ -64,7 +64,7 @@ During the development process, discussions were held with one of the official R
 
 ## RO-Crate indexing for easier exploration
 
-The [**rocrate-indexer**](https://github.com/arunaengine/rocrate-indexer) tool implements a thin webserver that provides the following endpoints:
+The [**rocrate-indexer**](https://github.com/arunaengine/rocrate-indexer) implements a thin webserver that provides the following endpoints:
 
 ```
 [POST]   /crates/url                Add an RO-Crate from a URL to the index
@@ -78,14 +78,18 @@ The [**rocrate-indexer**](https://github.com/arunaengine/rocrate-indexer) tool i
 [DELETE] /crates/{crate-id}         Delete RO-Crate associated with the specific id from the index
 ```
 
-The tool also integrates a fulltext search index over all included entities of an RO-Crate metadata file. The search functionality can be performed either as a fuzzy search without a cleanly defined scope or as an exact search on specific fields of entities.
+The tool integrates a fulltext search index over all included entities of an RO-Crate metadata file. The search functionality can be performed either as a fuzzy search without a cleanly defined scope or as an exact search on specific fields of entities.
 
 **Examples for search queries:**
-  - Full text search: "e.coli"
-  - Search by tpye: "entity_type:Person"
-  - Search by nested property: "author.name:Smith"
-  - Boolean query: "name:Test AND entity_type:Dataset"
 
+- Full text search
+  : "e.coli"
+- Search by type
+  : "entity_type:Person"
+- Search by nested property
+  : "author.name:Smith"
+- Boolean query
+  : "name:Test AND entity_type:Dataset"
 
 <div style="margin-bottom: 25px; padding:15px; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 1px dashed #00A0CC;">
 
@@ -166,11 +170,16 @@ graph TD
 
 #### Dashboard State
 
+<div style="display: flex; flex-direction: column; justify-content: center; align-items: center; border: 1px dashed #00A0CC;">
+
 ![Initial state showing the Dropzone and URL input field.](assets/demonstrator_01.png)
 
-The entry screen allows for dragging and dropping files or pasting a remote URL to initialize the session.
+_The entry screen allows for dragging and dropping files or pasting a remote URL to initialize the session._
+</div>
 
 #### Explorer State
+
+<div style="display: flex; flex-direction: column; justify-content: center; align-items: center; border: 1px dashed #00A0CC;">
 
 ![Split-pane view with Sidebar (left) and Entity Details (right).](assets/demonstrator_02.png)
 
@@ -178,36 +187,49 @@ The entry screen allows for dragging and dropping files or pasting a remote URL 
 2. **Sidebar (Files)**: A collapsible tree structure representing the physical file organization.
 3. **Sidebar (Context)**: A list of non-file entities (e.g., ContextEntity, Person) grouped by type.
 4. **Main Content**: The detailed view of the currently selected entity, showing key-value pairs of metadata.
+</div>
 
 #### Nested Navigation
 
+<div style="padding: 0 15px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border: 1px dashed #00A0CC;">
+
 ![Detail view showing the "Explore Subcrate" button.](assets/demonstrator_03.png)
 
-When the viewer encounters a property linking to another Metadata file, it renders an action button to seamlessly transition the application context to that sub-crate.
+_When the viewer encounters a property linking to another Metadata file, it renders an action button to seamlessly transition the application context to that sub-crate._
+</div>
 
 #### Full-Text Search in RO-Crate Explorer
 
+<div style="padding: 0 15px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border: 1px dashed #00A0CC;">
+
 ![Search Functionality as an Overlay](assets/demonstrator_04.png)
 
-In addition to traversal, the Demonstrator provides a full-text search capability that indexes all metadata across the
-loaded crate, allowing users to quickly find entities by matching terms in their properties (e.g., name, description, author).
+_In addition to traversal, the Demonstrator provides a full-text search capability that indexes all metadata across the loaded crate, allowing users to quickly find entities by matching terms in their properties (e.g., name, description, author)._
+</div>
 
 #### Linked Entity Inspection as an Overlay
 
+<div style="padding: 0 15px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border: 1px dashed #00A0CC;">
+
 ![Detail Information of Linked Entities as an Overlay](assets/demonstrator_05.png)
 
-To maintain context during exploration, clicking on an entity link (an @id reference) within the main Entity Detail View 
-triggers an overlay window rather than navigating away. This allows users to quickly inspect the metadata of a linked entity (e.g., an author or a datePublished entity) without losing the context of the parent entity they were initially viewing.
+_To maintain context during exploration, clicking on an entity link (an @id reference) within the main Entity Detail View triggers an overlay window rather than navigating away. This allows users to quickly inspect the metadata of a linked entity (e.g., an author or a datePublished entity) without losing the context of the parent entity they were initially viewing._
+</div>
 
 #### Raw JSON-LD Source Overlay and Export Actions
 
+<div style="padding: 0 15px; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 1px dashed #00A0CC;">
+
 ![Raw JSON-LD Source Overlay and Export Actions](assets/demonstrator_06.png)
 
-Clicking the "Raw JSON" option within the Entity Viewer (4) opens a modal overlay that displays the entity's complete, unparsed JSON-LD source code. 
-This feature is crucial for debugging, schema validation, and verifying the exact structure of the data as it appears in the ro-crate-metadata.json file.
+_Clicking the "Raw JSON" option within the Entity Viewer opens a modal overlay that displays the entity's complete, unparsed JSON-LD source code. This feature is crucial for debugging, schema validation, and verifying the exact structure of the data as it appears in the ro-crate-metadata.json file._
+</div>
 
-- **Lightweight Syntax Highlighting**: The raw JSON-LD is rendered with basic syntax highlighting to significantly improve readability and help users quickly parse the structure of keys, strings, and values.
-- **Debug and Validation**: This view offers an immediate, faithful representation of the data, allowing users to confirm the properties and values being loaded by the application's internal object model.
+- **Lightweight Syntax Highlighting**
+  : The raw JSON-LD is rendered with basic syntax highlighting to significantly improve readability and help users quickly parse the structure of keys, strings, and values.
+
+- **Debug and Validation**
+  : This view offers an immediate, faithful representation of the data, allowing users to confirm the properties and values being loaded by the application's internal object model.
 
 To facilitate working with this raw data outside the application, the overlay is equipped with two export actions:
 
