@@ -111,13 +111,13 @@ graph TD
 
 #### Dashboard State
 
-_Placeholder_ for screenshot: Initial state showing the Dropzone and URL input field.
+![Initial state showing the Dropzone and URL input field.](assets/demonstrator_01.png)
 
 The entry screen allows for dragging and dropping files or pasting a remote URL to initialize the session.
 
 #### Explorer State
 
-_Placeholder_ for screenshot: Split-pane view with Sidebar (left) and Entity Details (right).
+![Split-pane view with Sidebar (left) and Entity Details (right).](assets/demonstrator_02.png)
 
 1. **Header**: Displays the current Crate name and Breadcrumb navigation history.
 2. **Sidebar (Files)**: A collapsible tree structure representing the physical file organization.
@@ -126,6 +126,47 @@ _Placeholder_ for screenshot: Split-pane view with Sidebar (left) and Entity Det
 
 #### Nested Navigation
 
-_Placeholder_ for screenshot: Detail view showing the "Explore Subcrate" button.
+![Detail view showing the "Explore Subcrate" button.](assets/demonstrator_03.png)
 
 When the viewer encounters a property linking to another Metadata file, it renders an action button to seamlessly transition the application context to that sub-crate.
+
+#### Full-Text Search in RO-Crate Explorer
+
+![Search Functionality as an Overlay](assets/demonstrator_04.png)
+
+In addition to traversal, the Demonstrator provides a full-text search capability that indexes all metadata across the
+loaded crate, allowing users to quickly find entities by matching terms in their properties (e.g., name, description, author).
+
+#### Linked Entity Inspection as an Overlay
+
+![Detail Information of Linked Entities as an Overlay](assets/demonstrator_05.png)
+
+To maintain context during exploration, clicking on an entity link (an @id reference) within the main Entity Detail View 
+triggers an overlay window rather than navigating away. This allows users to quickly inspect the metadata of a linked entity (e.g., an author or a datePublished entity) without losing the context of the parent entity they were initially viewing.
+
+#### Raw JSON-LD Source Overlay and Export Actions
+
+![Raw JSON-LD Source Overlay and Export Actions](assets/demonstrator_06.png)
+
+Clicking the "Raw JSON" option within the Entity Viewer (4) opens a modal overlay that displays the entity's complete, unparsed JSON-LD source code. 
+This feature is crucial for debugging, schema validation, and verifying the exact structure of the data as it appears in the ro-crate-metadata.json file.
+
+- **Lightweight Syntax Highlighting**: The raw JSON-LD is rendered with basic syntax highlighting to significantly improve readability and help users quickly parse the structure of keys, strings, and values.
+- **Debug and Validation**: This view offers an immediate, faithful representation of the data, allowing users to confirm the properties and values being loaded by the application's internal object model.
+
+To facilitate working with this raw data outside the application, the overlay is equipped with two export actions:
+
+##### 1. Copy to Clipboard
+
+A prominent "Copy" button is included within the overlay.
+
+Functionality: Clicking this button instantly copies the entire, raw JSON-LD source text from the overlay to the user's clipboard, 
+ready to be pasted into a text editor, debugger, or other tool.
+
+##### 2. Download Entity Data
+
+A "Download" button is provided to save the crate's metadata locally.
+
+Format: The downloaded file contains the complete, raw entity metadata as a standard JSON-LD fragment.
+
+These export functions ensure that developers and users can easily access and manipulate the exact metadata harvested by the RO-Crate Explorer.
