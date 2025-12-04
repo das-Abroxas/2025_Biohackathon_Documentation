@@ -4,7 +4,7 @@
 
 ## Extensions to ro-crate-py
 
-Extended the library with a class 'Subcrate' extending the Dataset class. This additional implementation allows things like:
+Extended the library with a class `Subcrate` extending the Dataset class. This additional implementation allows things like:
 
 ```python
 main_crate = ROCrate("/tmp/ro-crate-dir")
@@ -18,7 +18,7 @@ entities = subcrate.get_entities()
 
 The implementation is such that the subcrate is only loaded when accessing some of its attribute, to avoid potentially loading large amount of metadata, as one purpose of the subcrate is also to reduce the amount of information in the main crate.
 
-[Link to the pull request with the feature implementations](https://github.com/ResearchObject/ro-crate-py/pull/244)
+[🔗 **Link to the pull request with the feature implementations**](https://github.com/ResearchObject/ro-crate-py/pull/244)
 
 ---
 
@@ -49,7 +49,6 @@ Supported formats:
 ![CLI displays full loaded RO-Crate JSON-LD content](assets/cli_screenshot_01.png)
 
 _Screenshot which shows the complete loaded top-level RO-Crate metadata file_
-
 </div>
 
 <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; border: 1px dashed #00A0CC;">
@@ -57,7 +56,6 @@ _Screenshot which shows the complete loaded top-level RO-Crate metadata file_
 ![CLI displays JSON-LD of specific entity with the @id: "./"](assets/cli_screenshot_02.png)
 
 _Screenshot which displays a specific entity after executing the `get ./` command_ 
-
 </div>
 
 During the development process, discussions were held with one of the official RO-Crate specification maintainers regarding the potential transfer of the library into the official ResearchObject Github organization. This conversation explored the benefits of housing the library within the established organizational structure, which would provide greater visibility within the RO-Crate community and signal its alignment with official specification standards. Future discussions with the current maintainer will focus on establishing joint development and shared maintenance of the library.
