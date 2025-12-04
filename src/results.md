@@ -50,13 +50,82 @@ The implementation is such that the subcrate is only loaded when accessing some 
 
 ## Demonstrator
 
-- Small Webapp MVP
+The **RO-Crate Explorer** is a lightweight "Minimum Viable Product" (MVP) web application designed to demonstrate the parsing, visualization, and traversal of Research Object Crates (RO-Crates). It provides a user-friendly interface to navigate the complex graph structures of metadata, supporting both detached (remote) and local nested crate structures.
 
-- Demonstrates the exploration and traversal of detached and nested RO-Crates via a file tree display
-  - Can be entered with a URL pointing to a remote RO-Crate (metadata file) or uploaded as .zip file or just as RO-Crate metadata file in detached format
+### Core Capabilities
 
-- Provides Preview of linked data e.g. Properties 
+#### 1. Universal Input Methods
+The application serves as a flexible entry point for RO-Crate data, supporting three distinct loading mechanisms:
 
-- Provides filter options by entity type
+* **Remote URL:** Users can input a URL pointing to a remote crate or a specific `ro-crate-metadata.json` file. This allows for the exploration of detached crates hosted on external servers.
+* **ZIP Archive:** Users can upload a zipped RO-Crate. The application utilizes `JSZip` to unpack the archive in memory and locate the metadata file automatically.
+* **JSON Metadata:** Users can upload a raw `ro-crate-metadata.json` file directly for immediate parsing.
 
-- Screenshots and process schema
+#### 2. File Tree & Graph Traversal
+Once a crate is loaded, the application constructs a navigable representation of the data:
+
+* **File Tree:** The sidebar displays a hierarchical tree view of the crate's content (Datasets and Files). This is computed by traversing the graph starting from the Root Dataset, handling parent-child relationships via the `hasPart` property.
+* **Nested Crate Support:** The application is capable of detecting links to other RO-Crates. If an entity links to another `ro-crate-metadata.json`, the interface provides a dedicated **"Explore Subcrate"** button. Clicking this pushes the current state to a history stack and loads the new crate context, allowing users to "dive" deep into nested structures.
+
+#### 3. Context & Filtering
+Beyond the directory structure, RO-Crates contain rich contextual entities (e.g., `Person`, `Organization`, `CreativeWork`).
+
+* **Context Filter:** The sidebar acts as a filter, grouping all non-file entities by their `@type`.
+* **Graph Access:** This allows users to quickly locate specific metadata entities that do not appear in the physical file hierarchy but are crucial to the graph.
+
+#### 4. Entity Inspection & Preview
+Clicking any item in the tree or context menu opens the **Entity Viewer**:
+
+* **Property Preview:** Displays all JSON-LD properties associated with the entity (e.g., `author`, `datePublished`, `description`).
+* **Link Navigation:** Properties that link to other entities (by `@id`) are clickable, allowing the user to jump between connected nodes in the graph.
+* **Raw Data:** A "Raw JSON" option is available to inspect the underlying JSON-LD source for debugging purposes.
+
+### Process Flow
+
+The following diagram illustrates how the Demonstrator processes user input and navigates the crate graph.
+
+```mermaid
+graph TD
+    A[User Entry] -->|Upload .zip/.json| B(File Parser)
+    A -->|Enter URL| C(Fetch API)
+    
+    B --> D{Parse JSON-LD}
+    C --> D
+    
+    D --> E[RO-Crate Object Model]
+    
+    E --> F[Generate File Tree]
+    E --> G[Group Entities by Type]
+    
+    F --> H[UI: Sidebar Navigation]
+    G --> H
+    
+    H -->|Select Entity| I[UI: Entity Detail View]
+    
+    I -->|Click Link| I
+    I -->|Click Subcrate Link| J[Push to History Stack]
+    J --> C
+```
+
+### Interface Overview
+
+#### Dashboard State
+
+_Placeholder_ for screenshot: Initial state showing the Dropzone and URL input field.
+
+The entry screen allows for dragging and dropping files or pasting a remote URL to initialize the session.
+
+#### Explorer State
+
+_Placeholder_ for screenshot: Split-pane view with Sidebar (left) and Entity Details (right).
+
+1. **Header**: Displays the current Crate name and Breadcrumb navigation history.
+2. **Sidebar (Files)**: A collapsible tree structure representing the physical file organization.
+3. **Sidebar (Context)**: A list of non-file entities (e.g., ContextEntity, Person) grouped by type.
+4. **Main Content**: The detailed view of the currently selected entity, showing key-value pairs of metadata.
+
+#### Nested Navigation
+
+_Placeholder_ for screenshot: Detail view showing the "Explore Subcrate" button.
+
+When the viewer encounters a property linking to another Metadata file, it renders an action button to seamlessly transition the application context to that sub-crate.
